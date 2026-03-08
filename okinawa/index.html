@@ -626,26 +626,46 @@
             .hero-issue { display: none; }
 
             .day-nav { padding: 0 1rem; }
+            .day-nav a { font-size: 0.95rem; padding: 0.85rem 1rem; }
 
             .day-section { padding: 2.5rem 1.25rem; }
 
             .day-header { gap: 1rem; }
             .day-number-big { font-size: clamp(3rem, 15vw, 5rem); }
-            .day-title-main { font-size: clamp(1.4rem, 5vw, 2rem); }
+            .day-title-main { font-size: clamp(1.5rem, 5.5vw, 2rem); }
+            .day-date-label { font-size: 0.7rem; }
 
-            .events-grid::before { left: 3.5rem; }
-            .event-row { grid-template-columns: 3.5rem 1fr; }
-            .event-time { font-size: 0.65rem; }
+            /* Timeline */
+            .events-grid::before { left: 4rem; }
+            .event-row { grid-template-columns: 4rem 1fr; }
+
+            .event-time-col { padding: 1.5rem 1rem 1.5rem 0; }
+            .event-time { font-size: 0.85rem; }
+
             .event-card { margin-left: 1rem; padding: 1rem 1.1rem; }
+            .event-place { font-size: 1.1rem; }
+            .event-place-jp { font-size: 0.8rem; }
+            .event-address { font-size: 0.75rem; }
+            .event-address-jp { font-size: 0.7rem; }
+            .event-note { font-size: 0.95rem; line-height: 1.75; }
+
+            .tag { font-size: 0.65rem; padding: 0.25rem 0.65rem; }
 
             .food-block { margin-left: 0; }
+            .food-block h4 { font-size: 0.95rem; }
+            .food-block li { font-size: 0.8rem; }
+            .food-note { font-size: 0.8rem; }
 
             footer { padding: 2rem 1.25rem; }
         }
 
         @media (max-width: 480px) {
-            .day-date-label { display: none; }
+            .day-date-label { font-size: 0.68rem; }
             .event-time-col { padding-top: 1.25rem; }
+            .event-time { font-size: 0.8rem; }
+            .event-place { font-size: 1.05rem; }
+            .event-place-jp { font-size: 0.78rem; }
+            .event-note { font-size: 0.9rem; }
         }
 
         /* ─── ENTRANCE ANIMATIONS ───────────────────── */
@@ -690,7 +710,7 @@
             <div class="hero-divider"></div>
             <p class="hero-desc">
                 碧海白沙、首里的紅牆、市場裡的海鹽炸物——<br>
-                一段關於南島時光的記錄。
+                一段關於南島時光的完整記錄。
             </p>
         </div>
         <div class="hero-map">
@@ -816,7 +836,8 @@
                                 </div>
                                 ${(event.address || event.address_jp) ? `
                                 <div>
-                                    ${event.address ? `<p class="event-address"><span>📍</span>${event.address} | ${event.address_jp}</p>` : ''}
+                                    ${event.address ? `<p class="event-address"><span>📍</span>${event.address}</p>` : ''}
+                                    ${event.address_jp ? `<p class="event-address-jp"><span>🗾</span>${event.address_jp}</p>` : ''}
                                 </div>` : ''}
                                 ${event.note ? `<p class="event-note">${event.note}</p>` : ''}
                             </div>
