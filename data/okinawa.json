@@ -1,0 +1,137 @@
+{
+  "meta": {
+    "title": "沖繩六天五夜",
+    "outbound": "11 Jun | 10:45 抵達那霸",
+    "inbound": "16 Jun | 20:55 那霸起飛",
+    "mapCenter": [26.35, 127.8],
+    "mapZoom": 10
+  },
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "Day 1. 南部海岸與鐘乳石奇觀",
+      "events": [
+        { "time": "10:45", "place": "那霸機場", "place_jp": "那覇空港", "address_jp": "〒901-0142 沖縄県那覇市鏡水150", "tags": [{ "text": "交通", "class": "tag-note" }], "lat": 26.2060, "lng": 127.6465 },
+        { "time": "11:45", "place": "瀨長島", "place_jp": "瀬長島 (ウミカジテラス)", "address": "沖繩縣豐見城市瀨長174-6", "address_jp": "〒901-0233 沖縄県豊見城市瀬長174-6", "tags": [{ "text": "景點", "class": "tag-play" }], "note": "看海景、拍飛機起降。", "lat": 26.1744, "lng": 127.6444 },
+        { "time": "13:30", "place": "玉泉洞 (沖繩文化王國)", "place_jp": "おきなわワールド 文化王国・玉泉洞", "address": "沖繩縣南城市玉城前川1336", "address_jp": "〒901-0616 沖縄県南城市玉城前川1336", "tags": [{ "text": "景點", "class": "tag-play" }], "note": "南城區探險壯觀的地下鐘乳石洞。", "lat": 26.1398, "lng": 127.7504 },
+        { "time": "15:30", "place": "尼萊卡納橋 & 知念岬公園", "place_jp": "ニライカナイ橋 & 知念岬公園", "address": "沖繩縣南城市知念久手堅", "address_jp": "〒901-1511 沖縄県南城市知念久手堅523", "tags": [{ "text": "景點", "class": "tag-play" }], "note": "開車兜風穿過壯觀的 U 型大橋，接著到知念岬欣賞 270 度絕美海景。", "lat": 26.1664, "lng": 127.8156 },
+        { "time": "16:30", "place": "新原沙灘", "place_jp": "新原ビーチ", "address": "沖繩縣南城市玉城玉城19-1", "address_jp": "〒901-0603 沖縄県南城市玉城百名1599-6", "tags": [{ "text": "景點", "class": "tag-play" }], "note": "找 Okinawa 字樣拍照。", "lat": 26.1338, "lng": 127.7891 },
+        { "time": "18:00", "place": "iias 購物中心", "place_jp": "イーアス沖縄豊崎", "address": "沖繩縣豐見城市豐崎3-35", "address_jp": "〒901-0225 沖縄県豊見城市豊崎3-35", "tags": [{ "text": "購物", "class": "tag-buy" }], "lat": 26.1561, "lng": 127.6534 },
+        { "time": "20:30", "place": "市區飯店 Check-in", "place_jp": "那覇市内ホテル", "address_jp": "那覇市内", "tags": [{ "text": "住宿", "class": "tag-note" }], "note": "飯店尚未決定，市區隨機應變。" },
+        { "time": "21:30", "place": "國際通屋台村", "place_jp": "国際通り屋台村", "address": "沖繩縣那霸市牧志3-11-16", "address_jp": "〒900-0013 沖縄県那覇市牧志3-11-16", "tags": [{ "text": "夜遊", "class": "tag-night" }], "note": "感受燈籠高掛的日式夜生活氛圍。", "lat": 26.2166, "lng": 127.6895 }
+      ],
+      "foods": {
+        "title": "本日美食備案",
+        "list": [
+          "<strong>點心：</strong>幸福鬆餅 (在瀨長島，建議先預約)",
+          "<strong>午餐/晚餐備選 1：</strong>玉泉洞 Nanto屋 (逛完玉泉洞順便吃蕎麥麵/豆腐套餐)",
+          "<strong>午餐/晚餐備選 2：</strong>山の茶屋・楽水 (新原沙灘旁，不吃魚可換海葡萄)",
+          "<strong>晚餐備選 3：</strong>egg me time 蛋包飯 (回市區順路經過可吃)",
+          "<strong>宵夜備選：</strong>pork tamago onigiri 牧志飯糰 (晚上回那霸市區買)"
+        ]
+      }
+    },
+    {
+      "day": 2,
+      "title": "Day 2. 那霸市區深度探索",
+      "events": [
+        { "time": "09:30", "place": "沖宮", "place_jp": "沖宮", "address": "沖繩縣那霸市奧武山町44", "address_jp": "〒900-0026 沖縄県那覇市奥武山町44", "tags": [{ "text": "景點", "class": "tag-play" }], "note": "位於奧武山公園，買御守。", "lat": 26.2045, "lng": 127.6773 },
+        { "time": "10:30", "place": "牧志市場 & 琉服美人", "place_jp": "第一牧志公設市場 & 琉装美人", "address": "沖繩縣那霸市松尾2-10-1", "address_jp": "〒900-0014 沖縄県那覇市松尾2-10-1", "tags": [{ "text": "景點", "class": "tag-play" }], "note": "換琉服在周邊巷弄拍照。", "lat": 26.2144, "lng": 127.6881 },
+        { "time": "12:30", "place": "波上宮", "place_jp": "波上宮", "address": "沖繩縣那霸市若狹1-25-11", "address_jp": "〒900-0031 沖縄県那覇市若狭1-25-11", "tags": [{ "text": "景點", "class": "tag-play" }], "lat": 26.2205, "lng": 127.6708 },
+        { "time": "14:00", "place": "壺屋通 (陶瓷街)", "place_jp": "壺屋やちむん通り", "address": "沖繩縣那霸市壺屋", "address_jp": "〒900-0014 沖縄県那覇市壺屋1丁目", "tags": [{ "text": "景點", "class": "tag-play" }], "note": "緊鄰市場，鋪滿石板路的復古陶器街，超級適合街拍。", "lat": 26.2135, "lng": 127.6912 },
+        { "time": "15:30", "place": "國際通商圈", "place_jp": "国際通り", "address": "沖繩縣那霸市牧志周邊", "address_jp": "〒900-0013 沖縄県那覇市牧志周辺", "tags": [{ "text": "購物", "class": "tag-buy" }], "note": "逛 mi-ja特產店等。", "lat": 26.2155, "lng": 127.6841 },
+        { "time": "21:30", "place": "榮町市場", "place_jp": "栄町市場", "address": "沖繩縣那霸市安里381", "address_jp": "〒902-0067 沖縄県那覇市安里381", "tags": [{ "text": "夜遊", "class": "tag-night" }], "note": "復古昭和風情的深夜食堂聚落。", "lat": 26.2173, "lng": 127.6953 },
+        { "time": "23:00", "place": "驚安殿堂 唐吉訶德 國際通店", "place_jp": "ドン・キホーテ 国際通り店", "address": "沖繩縣那霸市松尾2-8-19", "address_jp": "〒900-0014 沖縄県那覇市松尾2-8-19", "tags": [{ "text": "購物", "class": "tag-buy" }], "note": "24小時營業，吃飽喝足後輕鬆爆買免稅品。", "lat": 26.2158, "lng": 127.6885 }
+      ],
+      "foods": {
+        "title": "本日美食備案",
+        "list": [
+          "<strong>早餐/午餐：</strong>金壺食堂 (08:00-15:00，素食自助餐，剛好就在壺屋通旁邊)",
+          "<strong>正餐備選 1：</strong>樂園咖啡 Rakuen cafe (國際通逛街時可吃，有塔可飯/漢堡)",
+          "<strong>正餐備選 2：</strong>自然派食堂「タマテバコ」 (17:00開門，全素居酒屋)",
+          "<strong>正餐備選 3：</strong>浮島通 SABORAMI (18:00前須入場，咖哩烏龍麵)",
+          "<strong>正餐備選 4：</strong>MIL COMIDAS BURRITOS (塔可餅，當宵夜也可)",
+          "<strong>解饞小點心：</strong>福助玉子燒(市場內)、鹽屋、Calbee+、MIA風獅爺雞蛋糕、糖莎翁南星、10円パン起司餅、琉球牛乳餅。"
+        ]
+      }
+    },
+    {
+      "day": 3,
+      "title": "Day 3. 首里、浦添與東海岸商城",
+      "events": [
+        { "time": "09:30", "place": "西來院達摩寺", "place_jp": "達磨寺 (西来院)", "address": "沖繩縣那霸市首里赤田町1-5-1", "address_jp": "〒903-0811 沖縄県那覇市首里赤田町1-5-1", "tags": [{ "text": "景點", "class": "tag-play" }], "lat": 26.2215, "lng": 127.7242 },
+        { "time": "11:00", "place": "勝連城跡", "place_jp": "勝連城跡", "address": "沖繩縣うるま市勝連南風原3807-2", "address_jp": "〒904-2311 沖縄県うるま市勝連南風原3807-2", "tags": [{ "text": "景點", "class": "tag-play" }], "note": "跨過中部前往東海岸，壯觀的世界遺產。", "lat": 26.3304, "lng": 127.8785 },
+        { "time": "12:00", "place": "海中道路", "place_jp": "海中道路", "address": "沖繩縣うるま市與那城屋平", "address_jp": "〒904-2427 沖縄県うるま市与那城屋平", "tags": [{ "text": "景點", "class": "tag-play" }], "note": "就在勝連城跡旁，開車駛梭在建於海中央的筆直跨海大道，風景極佳。", "lat": 26.3323, "lng": 127.9171 },
+        { "time": "14:30", "place": "港川外人住宅區", "place_jp": "港川ステイツサイドタウン", "address": "沖繩縣浦添市港川2丁目", "address_jp": "〒901-2134 沖縄県浦添市港川2丁目", "tags": [{ "text": "景點", "class": "tag-play" }], "note": "漫步可愛的美式老屋聚落。", "lat": 26.2625, "lng": 127.7153 },
+        { "time": "16:30", "place": "PARCO CITY", "place_jp": "サンエー浦添西海岸 PARCO CITY", "address": "沖繩縣浦添市西洲3-1-1", "address_jp": "〒901-2123 沖縄県浦添市西洲3-1-1", "tags": [{ "text": "購物", "class": "tag-buy" }], "note": "臨海商場看夕陽，內含 3coins。", "lat": 26.2650, "lng": 127.7000 },
+        { "time": "20:30", "place": "浦添大公園展望台", "place_jp": "浦添大公園 展望台", "address": "沖繩縣浦添市伊祖115-1", "address_jp": "〒901-2132 沖縄県浦添市伊祖115-1", "tags": [{ "text": "夜遊", "class": "tag-night" }], "note": "順路開車上去看百萬市區夜景。", "lat": 26.2447, "lng": 127.7314 }
+      ],
+      "foods": {
+        "title": "本日美食備案池",
+        "list": [
+          "<strong>主食：</strong>A&W漢堡 牧港店 (在港川外人住宅區附近)",
+          "<strong>點心/伴手禮：</strong>Houki Boshi 可麗露、okinawa cerrado coffee 買咖啡豆。"
+        ],
+        "note": "註：AEON 或 PARCO 裡面也有很多美食街可以隨機應變。"
+      }
+    },
+    {
+      "day": 4,
+      "title": "Day 4. 西海岸燈塔與美國村異國風情",
+      "events": [
+        { "time": "10:00", "place": "殘波岬燈塔", "place_jp": "残波岬灯台", "address": "沖繩縣中頭郡讀谷村宇座1922", "address_jp": "〒904-0328 沖縄県中頭郡読谷村宇座1922", "tags": [{ "text": "景點", "class": "tag-play" }], "note": "沖繩西海岸最著名的自然景觀！斷崖絕壁與海浪拍打的畫面非常有張力。", "lat": 26.4395, "lng": 127.7146 },
+        { "time": "11:30", "place": "美國村商圈", "place_jp": "美浜アメリカンビレッジ", "address": "沖繩縣中頭郡北谷町美浜", "address_jp": "〒904-0115 沖縄県中頭郡北谷町美浜", "tags": [{ "text": "景點", "class": "tag-play" }], "note": "逛異國風情小店與吃午餐。", "lat": 26.3164, "lng": 127.7577 },
+        { "time": "14:30", "place": "永旺夢樂城 (AEON Rycom)", "place_jp": "イオンモール沖縄ライカム", "address": "沖繩縣中頭郡北中城村字ライカム1番地", "address_jp": "〒901-2306 沖縄県中頭郡北中城村ライカム1番地", "tags": [{ "text": "購物", "class": "tag-buy" }], "lat": 26.3142, "lng": 127.7963 },
+        { "time": "17:30", "place": "日落與魔幻時刻", "place_jp": "サンセットビーチ", "address": "美國村西側海岸 (日落海灘)", "address_jp": "〒904-0115 沖縄県中頭郡北谷町美浜2", "tags": [{ "text": "景點", "class": "tag-play" }], "note": "美國村的夕陽與海岸線非常美，這裡的霓虹燈和景色能拍出很棒的底片感光影。", "lat": 26.3135, "lng": 127.7547 },
+        { "time": "20:00", "place": "美國村魔幻點燈散步", "place_jp": "美浜アメリカンビレッジ", "address_jp": "〒904-0115 沖縄県中頭郡北谷町美浜", "tags": [{ "text": "夜遊", "class": "tag-night" }], "note": "晚上的美國村點滿了童話般的燈飾，沿著海岸步道散步非常浪漫。", "lat": 26.3135, "lng": 127.7547 }
+      ],
+      "foods": {
+        "title": "本日美食備案",
+        "list": [
+          "<strong>主食備選 1：</strong>Esparza’s Tacos and Coffee (塔可餅)",
+          "<strong>主食備選 2：</strong>Rotton (全素咖啡廳，有漢堡/法國吐司)",
+          "<strong>主食備選 3：</strong>Ryukyu beach club (海景咖啡廳)",
+          "<strong>主食備選 4：</strong>暖暮 北谷砂邊店 (開車5分鐘，必去吃拉麵與煎餃！)",
+          "<strong>下午茶點心：</strong>La Churreria Chatan (吉拿棒)、Cafe Halcyon (可麗餅)、Hoshi no Shizuku (刨冰)。"
+        ]
+      }
+    },
+    {
+      "day": 5,
+      "title": "Day 5. 沖繩北部自然奇觀",
+      "events": [
+        { "time": "09:30", "place": "万座毛", "place_jp": "万座毛", "address": "沖繩縣國頭郡恩納村恩納2767", "address_jp": "〒904-0411 沖縄県国頭郡恩納村恩納2767", "tags": [{ "text": "景點", "class": "tag-play" }], "lat": 26.5048, "lng": 127.8502 },
+        { "time": "10:30", "place": "御菓子御殿 恩納店", "place_jp": "御菓子御殿 恩納店", "address": "沖繩縣國頭郡恩納村瀨良垣100", "address_jp": "〒904-0404 沖縄県国頭郡恩納村瀬良垣100", "tags": [{ "text": "景點", "class": "tag-play" }], "note": "採購紅芋伴手禮。", "lat": 26.5035, "lng": 127.8551 },
+        { "time": "12:00", "place": "古宇利島 & 心型岩", "place_jp": "古宇利島 ティーヌ浜 ハートロック", "address": "沖繩縣國頭郡今歸仁村古宇利", "address_jp": "〒905-0406 沖縄県国頭郡今帰仁村古宇利2", "tags": [{ "text": "景點", "class": "tag-play" }], "note": "駛過古宇利大橋看絕美海景。", "lat": 26.7022, "lng": 128.0227 },
+        { "time": "14:30", "place": "美麗海水族館", "place_jp": "沖縄美ら海水族館", "address": "沖繩縣國頭郡本部町石川424", "address_jp": "〒905-0206 沖縄県国頭郡本部町石川424", "tags": [{ "text": "景點", "class": "tag-play" }], "note": "看黑潮之海。", "lat": 26.6943, "lng": 127.8779 },
+        { "time": "17:00", "place": "備瀨福木林道", "place_jp": "備瀬のフクギ並木", "address": "沖繩縣國頭郡本部町備瀨", "address_jp": "〒905-0207 沖縄県国頭郡本部町備瀬", "tags": [{ "text": "景點", "class": "tag-play" }], "note": "就在水族館旁。傍晚時分光影非常豐富，漫步其中充滿寧靜的日劇氛圍。", "lat": 26.7037, "lng": 127.8804 },
+        { "time": "19:30", "place": "北部無光害星空", "place_jp": "古宇利大橋南詰展望所", "address": "古宇利大橋南端展望所", "address_jp": "〒905-1632 沖縄県名護市済井出", "tags": [{ "text": "夜遊", "class": "tag-night" }], "note": "天氣晴朗的話，抬頭就能看見滿天星斗！", "lat": 26.6850, "lng": 128.0160 }
+      ],
+      "foods": {
+        "title": "本日美食備案",
+        "list": [
+          "<strong>必喝點心：</strong>sinmay coffee (今歸仁村爆紅的現刨生黑糖拿鐵，往返古宇利島時順路買)",
+          "<strong>消暑點心：</strong>blue seal 冰淇淋 (沿途到處都有，隨時吃)"
+        ],
+        "note": "註：水族館與古宇利島周邊有許多在地海景餐廳，可依當下心情挑選。"
+      }
+    },
+    {
+      "day": 6,
+      "title": "Day 6. 最終採買與完美收尾",
+      "events": [
+        { "time": "10:00", "place": "MEGA唐吉柯德 宜野灣店", "place_jp": "MEGAドン・キホーテ 宜野湾店", "address": "沖繩縣宜野灣市大山7-7-12", "address_jp": "〒901-2227 沖縄県宜野湾市大山7-7-12", "tags": [{ "text": "購物", "class": "tag-buy" }], "lat": 26.2750, "lng": 127.7300 },
+        { "time": "12:30", "place": "宜野灣熱帶海灘", "place_jp": "ぎのわんトロピカルビーチ", "address": "沖繩縣宜野灣市真志喜4-2-1", "address_jp": "〒901-2224 沖縄県宜野湾市真志喜4-2-1", "tags": [{ "text": "景點", "class": "tag-play" }], "note": "逛完唐吉柯德來旁邊的絕美海灘散步。", "lat": 26.2801, "lng": 127.7314 },
+        { "time": "15:00", "place": "那霸市區 / 國內線航廈", "place_jp": "那覇空港 国内線ターミナル", "address": "那霸機場國內線航廈", "address_jp": "〒901-0142 沖縄県那覇市鏡水150", "tags": [{ "text": "購物", "class": "tag-buy" }], "note": "藥妝最後補貨，提早到機場逛國內線。", "lat": 26.2060, "lng": 127.6465 },
+        { "time": "18:30", "place": "那霸機場國際線報到", "place_jp": "那覇空港 国際線ターミナル", "address": "沖繩縣那霸市鏡水150", "address_jp": "〒901-0142 沖縄県那覇市鏡水150", "tags": [{ "text": "交通", "class": "tag-note" }], "lat": 26.2060, "lng": 127.6465 },
+        { "time": "20:55", "place": "班機起飛 ✈️", "place_jp": "那覇空港", "address_jp": "〒901-0142 沖縄県那覇市鏡水150", "tags": [{ "text": "交通", "class": "tag-note" }], "lat": 26.2060, "lng": 127.6465 }
+      ],
+      "foods": {
+        "title": "本日美食備案池",
+        "list": [
+          "<strong>主食：</strong>Gajimaru Cafe & Bar (宜野灣市周邊，逛完沙灘剛好去吃飯麵料理)"
+        ]
+      }
+    }
+  ]
+}

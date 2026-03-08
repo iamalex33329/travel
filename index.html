@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Journal</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Bebas+Neue&family=Noto+Serif+TC:wght@300;400;600&family=Noto+Sans+TC:wght@200;300;400&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --ink: #0a0906;
+            --paper: #f7f4ef;
+            --cream: #ede9e1;
+            --dust: #8a8178;
+            --accent: #b5926a;
+            --accent-warm: #c8a882;
+            --dim: #1c1a17;
+            --white: #ffffff;
+
+            --font-display: 'Bebas Neue', sans-serif;
+            --font-editorial: 'Cormorant Garamond', Georgia, serif;
+            --font-body: 'Noto Sans TC', sans-serif;
+            --font-serif-cjk: 'Noto Serif TC', serif;
+        }
+
+        html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
+
+        body {
+            background: var(--ink);
+            color: var(--paper);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* ─── CUSTOM CURSOR ─────────────────────── */
+        .cursor {
+            position: fixed;
+            width: 8px; height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.25s, height 0.25s, background 0.25s, opacity 0.25s;
+            mix-blend-mode: screen;
+        }
+
+        .cursor-ring {
+            position: fixed;
+            width: 32px; height: 32px;
+            border: 1px solid rgba(181,146,106,0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s cubic-bezier(0.16,1,0.3,1),
+                        height 0.4s cubic-bezier(0.16,1,0.3,1),
+                        border-color 0.3s;
+        }
+
+        body:has(.city-card:hover) .cursor { width: 14px; height: 14px; }
+        body:has(.city-card:hover) .cursor-ring { width: 56px; height: 56px; border-color: rgba(181,146,106,0.8); }
+
+        /* ─── MASTHEAD ──────────────────────────── */
+        .masthead {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 3rem;
+            height: 60px;
+            background: linear-gradient(to bottom, rgba(10,9,6,0.95) 0%, transparent 100%);
+        }
+
+        .masthead-logo {
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            letter-spacing: 0.45em;
+            color: var(--white);
+        }
+
+        .masthead-logo em {
+            font-family: var(--font-editorial);
+            font-style: italic;
+            font-size: 0.7rem;
+            font-weight: 300;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            display: block;
+            margin-top: -2px;
+        }
+
+        .masthead-right {
+            font-family: var(--font-body);
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--dust);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .masthead-right::before {
+            content: '';
+            width: 1.5rem;
+            height: 1px;
+            background: var(--accent);
+        }
+
+        /* ─── INTRO SCREEN ──────────────────────── */
+        .intro {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            scroll-snap-align: start;
+            overflow: hidden;
+        }
+
+        /* Grain overlay */
+        .intro::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+            opacity: 0.35;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Radial glow */
+        .intro::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60vw; height: 60vw;
+            background: radial-gradient(ellipse, rgba(181,146,106,0.06) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .intro-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .intro-eyebrow {
+            font-family: var(--font-body);
+            font-size: 0.6rem;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeUp 0.8s 0.3s forwards ease;
+        }
+
+        .intro-title {
+            font-family: var(--font-display);
+            font-size: clamp(5rem, 18vw, 14rem);
+            letter-spacing: 0.08em;
+            line-height: 0.9;
+            color: var(--white);
+            opacity: 0;
+            animation: fadeUp 0.9s 0.5s forwards ease;
+        }
+
+        .intro-subtitle {
+            font-family: var(--font-editorial);
+            font-size: clamp(1rem, 2.5vw, 1.6rem);
+            font-style: italic;
+            font-weight: 300;
+            color: var(--dust);
+            letter-spacing: 0.08em;
+            margin-top: 1rem;
+            opacity: 0;
+            animation: fadeUp 0.9s 0.7s forwards ease;
+        }
+
+        .intro-divider {
+            width: 1px;
+            height: 4rem;
+            background: linear-gradient(to bottom, var(--accent), transparent);
+            margin: 2.5rem auto 0;
+            opacity: 0;
+            animation: fadeUp 0.9s 1s forwards ease;
+        }
+
+        .intro-scroll-hint {
+            font-family: var(--font-body);
+            font-size: 0.55rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--dust);
+            margin-top: 0.75rem;
+            opacity: 0;
+            animation: fadeUp 0.9s 1.1s forwards ease;
+        }
+
+        /* Decorative corner lines */
+        .corner {
+            position: absolute;
+            width: 40px; height: 40px;
+            z-index: 2;
+            opacity: 0.3;
+        }
+
+        .corner--tl { top: 1.5rem; left: 1.5rem; border-top: 1px solid var(--accent); border-left: 1px solid var(--accent); }
+        .corner--tr { top: 1.5rem; right: 1.5rem; border-top: 1px solid var(--accent); border-right: 1px solid var(--accent); }
+        .corner--bl { bottom: 1.5rem; left: 1.5rem; border-bottom: 1px solid var(--accent); border-left: 1px solid var(--accent); }
+        .corner--br { bottom: 1.5rem; right: 1.5rem; border-bottom: 1px solid var(--accent); border-right: 1px solid var(--accent); }
+
+        /* Issue count */
+        .intro-issue {
+            position: absolute;
+            right: 3rem;
+            bottom: 2rem;
+            font-family: var(--font-display);
+            font-size: 0.65rem;
+            letter-spacing: 0.35em;
+            color: var(--dust);
+            writing-mode: vertical-rl;
+            z-index: 2;
+            opacity: 0;
+            animation: fadeUp 1s 1.3s forwards;
+        }
+
+        /* ─── DESTINATIONS SECTION ──────────────── */
+        .destinations-section {
+            background: var(--paper);
+            color: var(--ink);
+            scroll-snap-align: start;
+        }
+
+        .destinations-header {
+            padding: 5rem 3rem 0;
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--cream);
+            padding-bottom: 2rem;
+        }
+
+        .destinations-header-left {}
+
+        .destinations-eyebrow {
+            font-family: var(--font-body);
+            font-size: 0.6rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .destinations-title {
+            font-family: var(--font-editorial);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 300;
+            font-style: italic;
+            color: var(--ink);
+            line-height: 1.1;
+        }
+
+        .destinations-count {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 6vw, 5rem);
+            color: var(--cream);
+            letter-spacing: 0.05em;
+            line-height: 1;
+            user-select: none;
+        }
+
+        /* ─── CITY GRID ─────────────────────────── */
+        .city-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 0;
+        }
+
+        /* Each card occupies different column spans for editorial asymmetry */
+        .city-card:nth-child(1) { grid-column: span 7; }
+        .city-card:nth-child(2) { grid-column: span 5; }
+        .city-card:nth-child(3) { grid-column: span 4; }
+        .city-card:nth-child(4) { grid-column: span 4; }
+        .city-card:nth-child(5) { grid-column: span 4; }
+        .city-card:nth-child(6) { grid-column: span 6; }
+        .city-card:nth-child(7) { grid-column: span 6; }
+        /* fallback for extra cards */
+        .city-card:nth-child(n+8) { grid-column: span 4; }
+
+        .city-card {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 4/5;
+            display: block;
+            text-decoration: none;
+            color: var(--white);
+            background: var(--dim);
+            border: 1px solid var(--cream);
+            cursor: none;
+        }
+
+        /* Solid color fills as placeholder backgrounds — editorial palette */
+        .city-card:nth-child(1) .card-bg { background: #1a1510; }
+        .city-card:nth-child(2) .card-bg { background: #0e1a18; }
+        .city-card:nth-child(3) .card-bg { background: #16101a; }
+        .city-card:nth-child(4) .card-bg { background: #1a1208; }
+        .city-card:nth-child(5) .card-bg { background: #0a1520; }
+        .city-card:nth-child(6) .card-bg { background: #1a1010; }
+        .city-card:nth-child(7) .card-bg { background: #101a12; }
+        .city-card:nth-child(n+8) .card-bg { background: #14141a; }
+
+        .card-bg {
+            position: absolute;
+            inset: 0;
+            transition: transform 0.7s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        /* Abstract texture per card */
+        .card-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0.6;
+        }
+
+        .city-card:nth-child(1) .card-bg::before {
+            background: radial-gradient(ellipse at 30% 70%, rgba(181,146,106,0.25) 0%, transparent 60%),
+                        radial-gradient(ellipse at 80% 20%, rgba(200,98,74,0.15) 0%, transparent 50%);
+        }
+        .city-card:nth-child(2) .card-bg::before {
+            background: radial-gradient(ellipse at 70% 60%, rgba(58,125,110,0.3) 0%, transparent 55%);
+        }
+        .city-card:nth-child(3) .card-bg::before {
+            background: radial-gradient(ellipse at 40% 40%, rgba(90,45,143,0.25) 0%, transparent 50%);
+        }
+        .city-card:nth-child(4) .card-bg::before {
+            background: radial-gradient(ellipse at 60% 70%, rgba(200,146,74,0.3) 0%, transparent 60%);
+        }
+        .city-card:nth-child(5) .card-bg::before {
+            background: radial-gradient(ellipse at 30% 50%, rgba(45,106,143,0.3) 0%, transparent 55%);
+        }
+        .city-card:nth-child(6) .card-bg::before {
+            background: radial-gradient(ellipse at 50% 80%, rgba(200,74,74,0.2) 0%, transparent 55%);
+        }
+        .city-card:nth-child(7) .card-bg::before {
+            background: radial-gradient(ellipse at 50% 30%, rgba(74,200,140,0.15) 0%, transparent 55%);
+        }
+
+        /* Vignette */
+        .card-vignette {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.05) 100%);
+            z-index: 1;
+            transition: opacity 0.4s;
+        }
+
+        .city-card:hover .card-bg { transform: scale(1.04); }
+        .city-card:hover .card-vignette { opacity: 0.7; }
+
+        /* Card content */
+        .card-content {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            padding: 1.75rem 1.5rem 1.5rem;
+            z-index: 2;
+            transform: translateY(0);
+            transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .city-card:hover .card-content { transform: translateY(-4px); }
+
+        .card-index {
+            font-family: var(--font-display);
+            font-size: 0.6rem;
+            letter-spacing: 0.4em;
+            color: var(--accent-warm);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .card-index::before {
+            content: '';
+            display: inline-block;
+            width: 1.2rem;
+            height: 1px;
+            background: var(--accent);
+        }
+
+        .card-city-name {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            letter-spacing: 0.05em;
+            line-height: 0.9;
+            color: var(--white);
+            margin-bottom: 0.3rem;
+        }
+
+        .card-city-jp {
+            font-family: var(--font-serif-cjk);
+            font-size: 0.75rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 0.8rem;
+        }
+
+        .card-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-family: var(--font-body);
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+        }
+
+        .card-meta-sep { color: var(--accent); font-size: 0.5rem; }
+
+        /* Arrow reveal on hover */
+        .card-arrow {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            width: 36px; height: 36px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            opacity: 0;
+            transform: scale(0.8) rotate(-45deg);
+            transition: opacity 0.3s, transform 0.4s cubic-bezier(0.16,1,0.3,1);
+            font-size: 0.8rem;
+        }
+
+        .city-card:hover .card-arrow {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+        }
+
+        /* ─── FOOTER ────────────────────────────── */
+        .footer {
+            background: var(--ink);
+            padding: 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            border-top: 1px solid #1e1c18;
+        }
+
+        .footer-logo {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            letter-spacing: 0.3em;
+            color: var(--white);
+        }
+
+        .footer-right {
+            font-family: var(--font-editorial);
+            font-style: italic;
+            font-size: 0.85rem;
+            color: var(--dust);
+            letter-spacing: 0.05em;
+        }
+
+        /* ─── ANIMATIONS ────────────────────────── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* Staggered card reveals */
+        .city-card.reveal { transition-delay: calc(var(--i, 0) * 0.07s); }
+
+        /* ─── RESPONSIVE ────────────────────────── */
+        @media (max-width: 900px) {
+            .city-card:nth-child(n) { grid-column: span 6; }
+            .city-card:nth-child(1) { grid-column: span 12; aspect-ratio: 3/2; }
+        }
+
+        @media (max-width: 600px) {
+            body { cursor: auto; }
+            .cursor, .cursor-ring { display: none; }
+
+            .masthead { padding: 0 1.25rem; }
+            .masthead-right { display: none; }
+
+            .intro-title { font-size: clamp(4rem, 20vw, 7rem); }
+            .corner { display: none; }
+
+            .destinations-header { padding: 2.5rem 1.25rem 1.5rem; flex-direction: column; gap: 0.5rem; }
+            .destinations-count { font-size: 2.5rem; }
+
+            .city-card:nth-child(n) { grid-column: span 12; aspect-ratio: 4/3; }
+
+            .footer { padding: 2rem 1.25rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Custom cursor -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursor-ring"></div>
+
+    <!-- Masthead -->
+    <header class="masthead">
+        <div class="masthead-logo">
+            TRAVEL JOURNAL
+            <em>Personal Itineraries</em>
+        </div>
+        <div class="masthead-right">Curated Destinations</div>
+    </header>
+
+    <!-- Intro / Cover -->
+    <section class="intro">
+        <div class="corner corner--tl"></div>
+        <div class="corner corner--tr"></div>
+        <div class="corner corner--bl"></div>
+        <div class="corner corner--br"></div>
+
+        <div class="intro-content">
+            <p class="intro-eyebrow">Personal Travel Journal</p>
+            <h1 class="intro-title">WANDER</h1>
+            <p class="intro-subtitle">每一次出走，都是一場精心策劃的自由</p>
+            <div class="intro-divider"></div>
+            <p class="intro-scroll-hint">Scroll to explore</p>
+        </div>
+
+        <div class="intro-issue">Vol. I &nbsp; · &nbsp; Destinations</div>
+    </section>
+
+    <!-- Destinations -->
+    <section class="destinations-section">
+        <div class="destinations-header reveal">
+            <div class="destinations-header-left">
+                <p class="destinations-eyebrow">All Destinations</p>
+                <h2 class="destinations-title">行程選集</h2>
+            </div>
+            <div class="destinations-count" id="dest-count">—</div>
+        </div>
+
+        <div class="city-grid" id="city-grid">
+            <!-- Rendered by JS -->
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-logo">WANDER</div>
+        <div class="footer-right">Every journey deserves to be remembered.</div>
+    </footer>
+
+    <script>
+        // ─── Cursor tracking ────────────────────
+        const cursor = document.getElementById('cursor');
+        const ring = document.getElementById('cursor-ring');
+        let mx = 0, my = 0, rx = 0, ry = 0;
+
+        document.addEventListener('mousemove', e => {
+            mx = e.clientX; my = e.clientY;
+            cursor.style.left = mx + 'px';
+            cursor.style.top  = my + 'px';
+        });
+
+        (function animateRing() {
+            rx += (mx - rx) * 0.12;
+            ry += (my - ry) * 0.12;
+            ring.style.left = rx + 'px';
+            ring.style.top  = ry + 'px';
+            requestAnimationFrame(animateRing);
+        })();
+
+        // ─── Intersection Observer ───────────────
+        const io = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+        // ─── Destinations data ───────────────────
+        // Add or remove cities here. `slug` must match the JSON filename.
+        const destinations = [
+            {
+                slug: 'okinawa',
+                name: 'Okinawa',
+                name_zh: '沖繩',
+                name_jp: '沖縄県',
+                duration: '6 Days 5 Nights',
+                season: 'June 2026',
+                region: 'Japan · Ryukyu Islands',
+            }
+        ];
+
+        // ─── Render grid ─────────────────────────
+        const grid = document.getElementById('city-grid');
+        const countEl = document.getElementById('dest-count');
+        countEl.textContent = String(destinations.length).padStart(2, '0');
+
+        destinations.forEach((dest, i) => {
+            const a = document.createElement('a');
+            a.href = `/${dest.slug}`;
+            a.className = 'city-card reveal';
+            a.style.setProperty('--i', i);
+
+            a.innerHTML = `
+                <div class="card-bg"></div>
+                <div class="card-vignette"></div>
+                <div class="card-arrow">↗</div>
+                <div class="card-content">
+                    <p class="card-index">${String(i + 1).padStart(2,'0')}</p>
+                    <h2 class="card-city-name">${dest.name.toUpperCase()}</h2>
+                    <p class="card-city-jp">${dest.name_zh} ${dest.name_jp ? '— ' + dest.name_jp : ''}</p>
+                    <div class="card-meta">
+                        <span>${dest.duration}</span>
+                        <span class="card-meta-sep">◆</span>
+                        <span>${dest.season}</span>
+                        <span class="card-meta-sep">◆</span>
+                        <span>${dest.region}</span>
+                    </div>
+                </div>
+            `;
+
+            grid.appendChild(a);
+            io.observe(a);
+        });
+    </script>
+</body>
+</html>

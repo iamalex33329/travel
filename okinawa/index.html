@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>沖繩六天五夜</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=Noto+Serif+TC:wght@300;400;600&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --ink: #0d0d0d;
+            --paper: #f7f4ef;
+            --cream: #ede9e1;
+            --dust: #c8c0b0;
+            --accent: #b5926a;
+            --accent-light: #e8ddd0;
+            --coral: #c8624a;
+            --teal: #3a7d6e;
+            --sand: #d4b896;
+            --muted: #6b6257;
+            --white: #ffffff;
+
+            --font-display: 'Bebas Neue', 'Impact', sans-serif;
+            --font-editorial: 'Cormorant Garamond', 'Georgia', serif;
+            --font-body: 'Noto Sans TC', sans-serif;
+            --font-serif-cjk: 'Noto Serif TC', serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--paper);
+            color: var(--ink);
+            font-family: var(--font-body);
+            font-weight: 300;
+            overflow-x: hidden;
+        }
+
+        /* ─── MASTHEAD ─────────────────────────────── */
+        .masthead {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2.5rem;
+            height: 56px;
+            background: var(--paper);
+            border-bottom: 1px solid var(--dust);
+            mix-blend-mode: normal;
+        }
+
+        .masthead-logo {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            letter-spacing: 0.25em;
+            color: var(--ink);
+            line-height: 1;
+        }
+
+        .masthead-logo span {
+            font-family: var(--font-editorial);
+            font-style: italic;
+            font-size: 0.8rem;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+            display: block;
+        }
+
+        .masthead-flights {
+            display: flex;
+            gap: 2rem;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--muted);
+            font-weight: 400;
+        }
+
+        .masthead-flights p { display: flex; align-items: center; gap: 0.4rem; }
+
+        /* ─── HERO ─────────────────────────────────── */
+        .hero {
+            margin-top: 56px;
+            min-height: 80vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 4rem 3rem 4rem 3.5rem;
+            background: var(--paper);
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-kicker {
+            font-family: var(--font-body);
+            font-size: 0.65rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .hero-kicker::before {
+            content: '';
+            display: inline-block;
+            width: 2rem;
+            height: 1px;
+            background: var(--accent);
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(4rem, 8vw, 7rem);
+            line-height: 0.9;
+            letter-spacing: 0.03em;
+            color: var(--ink);
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-title-jp {
+            font-family: var(--font-serif-cjk);
+            font-size: clamp(1rem, 2vw, 1.4rem);
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            color: var(--muted);
+            margin-bottom: 2rem;
+        }
+
+        .hero-divider {
+            width: 3rem;
+            height: 1px;
+            background: var(--ink);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-desc {
+            font-family: var(--font-editorial);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--muted);
+            max-width: 26ch;
+        }
+
+        .hero-map {
+            position: relative;
+            background: var(--cream);
+            min-height: 60vh;
+        }
+
+        .hero-map #map {
+            width: 100%;
+            height: 100%;
+            min-height: 400px;
+            filter: saturate(0.7) contrast(1.05);
+        }
+
+        .hero-map::after {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 60px;
+            background: linear-gradient(to right, var(--paper), transparent);
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        /* Issue number decorative */
+        .hero-issue {
+            position: absolute;
+            bottom: 2rem;
+            right: 2.5rem;
+            font-family: var(--font-display);
+            font-size: 6rem;
+            line-height: 1;
+            color: var(--cream);
+            letter-spacing: 0.05em;
+            z-index: 1;
+            user-select: none;
+        }
+
+        /* ─── DAY NAVIGATION ───────────────────────── */
+        .day-nav {
+            position: sticky;
+            top: 56px;
+            z-index: 90;
+            background: var(--ink);
+            padding: 0 2.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0;
+            overflow-x: auto;
+            scrollbar-width: none;
+            border-bottom: 2px solid var(--ink);
+        }
+
+        .day-nav::-webkit-scrollbar { display: none; }
+
+        .day-nav-label {
+            font-family: var(--font-body);
+            font-size: 0.6rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--dust);
+            white-space: nowrap;
+            padding-right: 1.5rem;
+            border-right: 1px solid #333;
+            margin-right: 1rem;
+        }
+
+        .day-nav a {
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            letter-spacing: 0.2em;
+            color: var(--dust);
+            text-decoration: none;
+            padding: 0.75rem 1rem;
+            white-space: nowrap;
+            transition: color 0.2s, background 0.2s;
+            position: relative;
+        }
+
+        .day-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 1rem; right: 1rem;
+            height: 2px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transition: transform 0.2s;
+        }
+
+        .day-nav a:hover { color: var(--white); }
+        .day-nav a:hover::after { transform: scaleX(1); }
+
+        /* ─── MAIN LAYOUT ──────────────────────────── */
+        .content-wrapper {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        /* ─── DAY SECTION ──────────────────────────── */
+        .day-section {
+            padding: 4rem 2.5rem;
+            border-bottom: 1px solid var(--dust);
+            position: relative;
+        }
+
+        .day-header {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 2rem;
+            align-items: baseline;
+            margin-bottom: 3rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--dust);
+        }
+
+        .day-number-big {
+            font-family: var(--font-display);
+            font-size: clamp(4rem, 10vw, 8rem);
+            line-height: 0.85;
+            color: var(--cream);
+            letter-spacing: 0.02em;
+            user-select: none;
+        }
+
+        .day-header-text {}
+
+        .day-date-label {
+            font-family: var(--font-body);
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.4rem;
+        }
+
+        .day-title-main {
+            font-family: var(--font-editorial);
+            font-size: clamp(1.8rem, 3vw, 2.8rem);
+            font-weight: 300;
+            font-style: italic;
+            line-height: 1.1;
+            color: var(--ink);
+        }
+
+        /* ─── EVENT TIMELINE ───────────────────────── */
+        .events-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            position: relative;
+        }
+
+        .events-grid::before {
+            content: '';
+            position: absolute;
+            left: 4.5rem;
+            top: 0; bottom: 0;
+            width: 1px;
+            background: var(--dust);
+        }
+
+        .event-row {
+            display: grid;
+            grid-template-columns: 4.5rem 1fr;
+            gap: 0;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .event-row:hover .event-card { background: var(--cream); }
+
+        .event-time-col {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            padding: 1.5rem 1.25rem 1.5rem 0;
+            position: relative;
+        }
+
+        .event-time {
+            font-family: var(--font-editorial);
+            font-size: 0.75rem;
+            font-style: italic;
+            color: var(--muted);
+            white-space: nowrap;
+            line-height: 1;
+        }
+
+        .event-dot {
+            position: absolute;
+            right: -5px;
+            top: 1.75rem;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            border: 2px solid var(--paper);
+            background: var(--accent);
+            transition: transform 0.2s, background 0.2s;
+            z-index: 1;
+        }
+
+        .event-row:hover .event-dot {
+            transform: scale(1.5);
+            background: var(--coral);
+        }
+
+        .event-card {
+            margin: 0.75rem 0 0.75rem 1.5rem;
+            padding: 1.25rem 1.5rem;
+            background: var(--white);
+            border: 1px solid var(--cream);
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .event-row:hover .event-card { transform: translateX(2px); }
+
+        .event-card-header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-place {
+            font-family: var(--font-serif-cjk);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--ink);
+            letter-spacing: 0.02em;
+        }
+
+        .event-place-jp {
+            font-family: var(--font-body);
+            font-size: 0.7rem;
+            font-weight: 300;
+            color: var(--muted);
+            letter-spacing: 0.05em;
+            margin-top: 0.15rem;
+            line-height: 1.4;
+        }
+
+        .event-address-jp {
+            font-family: var(--font-body);
+            font-size: 0.6rem;
+            color: var(--dust);
+            letter-spacing: 0.03em;
+            margin-top: 0.15rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.3rem;
+            line-height: 1.5;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+        }
+
+        .tag {
+            font-family: var(--font-body);
+            font-size: 0.55rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            padding: 0.2rem 0.6rem;
+            border: 1px solid;
+            font-weight: 500;
+        }
+
+        .tag-交通 { color: var(--muted); border-color: var(--dust); background: transparent; }
+        .tag-景點 { color: #2d6a8f; border-color: #9ec5de; background: #edf6fc; }
+        .tag-購物 { color: #8f2d6a; border-color: #de9ec5; background: #fcedf6; }
+        .tag-夜遊 { color: #5a2d8f; border-color: #b49ede; background: #f2edfb; }
+        .tag-住宿 { color: #8f6a2d; border-color: #dec59e; background: #fbf6ed; }
+
+        .event-address {
+            font-family: var(--font-body);
+            font-size: 0.65rem;
+            color: var(--dust);
+            letter-spacing: 0.05em;
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.3rem;
+        }
+
+        .event-note {
+            font-family: var(--font-editorial);
+            font-size: 0.85rem;
+            line-height: 1.7;
+            color: var(--muted);
+            font-style: italic;
+            border-left: 2px solid var(--accent-light);
+            padding-left: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        /* ─── FOOD ASIDE ───────────────────────────── */
+        .food-block {
+            margin: 1.5rem 0 0.5rem 6rem;
+            padding: 1.25rem 1.5rem;
+            border: 1px dashed var(--sand);
+            background: linear-gradient(135deg, #fdf6ee 0%, #faf0e4 100%);
+            position: relative;
+        }
+
+        .food-block::before {
+            content: 'DINING';
+            position: absolute;
+            top: -0.5rem; left: 1rem;
+            font-family: var(--font-display);
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            color: var(--accent);
+            background: #fdf6ee;
+            padding: 0 0.4rem;
+        }
+
+        .food-block h4 {
+            font-family: var(--font-serif-cjk);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #7a4f2a;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .food-block ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .food-block li {
+            font-family: var(--font-body);
+            font-size: 0.7rem;
+            color: #8a6040;
+            background: rgba(181,146,106,0.12);
+            border: 1px solid rgba(181,146,106,0.2);
+            padding: 0.2rem 0.6rem;
+        }
+
+        .food-note {
+            font-family: var(--font-editorial);
+            font-size: 0.75rem;
+            font-style: italic;
+            color: var(--muted);
+            margin-top: 0.75rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid var(--accent-light);
+        }
+
+        /* ─── FOOTER ────────────────────────────────── */
+        footer {
+            background: var(--ink);
+            color: var(--dust);
+            padding: 3rem 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        footer .footer-logo {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            letter-spacing: 0.25em;
+            color: var(--white);
+        }
+
+        footer p {
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #555;
+        }
+
+        /* ─── LEAFLET OVERRIDES ─────────────────────── */
+        .leaflet-popup-content-wrapper {
+            border-radius: 0 !important;
+            border: 1px solid var(--dust) !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08) !important;
+            font-family: var(--font-body) !important;
+        }
+
+        .leaflet-popup-tip { background: var(--white) !important; }
+
+        .popup-place {
+            font-family: var(--font-serif-cjk);
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 2px;
+        }
+
+        .popup-time {
+            font-family: var(--font-editorial);
+            font-size: 0.75rem;
+            font-style: italic;
+            color: var(--muted);
+        }
+
+        /* ─── LOADING ───────────────────────────────── */
+        .loading-screen {
+            position: fixed;
+            inset: 0;
+            background: var(--ink);
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loading-screen.hidden { opacity: 0; visibility: hidden; }
+
+        .loading-logo {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            letter-spacing: 0.3em;
+            color: var(--white);
+            animation: pulse 1.5s infinite;
+        }
+
+        .loading-bar {
+            width: 120px;
+            height: 1px;
+            background: #333;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loading-bar::after {
+            content: '';
+            position: absolute;
+            left: -100%;
+            top: 0; bottom: 0;
+            width: 100%;
+            background: var(--accent);
+            animation: loadbar 1s infinite linear;
+        }
+
+        @keyframes loadbar { to { left: 100%; } }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+        /* ─── RESPONSIVE ────────────────────────────── */
+        @media (max-width: 768px) {
+            .masthead { padding: 0 1.25rem; }
+            .masthead-flights { display: none; }
+
+            .hero { grid-template-columns: 1fr; min-height: auto; }
+            .hero-text { padding: 2.5rem 1.5rem; }
+            .hero-map { min-height: 50vw; }
+            .hero-map #map { min-height: 50vw; }
+            .hero-issue { display: none; }
+
+            .day-nav { padding: 0 1rem; }
+
+            .day-section { padding: 2.5rem 1.25rem; }
+
+            .day-header { gap: 1rem; }
+            .day-number-big { font-size: clamp(3rem, 15vw, 5rem); }
+            .day-title-main { font-size: clamp(1.4rem, 5vw, 2rem); }
+
+            .events-grid::before { left: 3.5rem; }
+            .event-row { grid-template-columns: 3.5rem 1fr; }
+            .event-time { font-size: 0.65rem; }
+            .event-card { margin-left: 1rem; padding: 1rem 1.1rem; }
+
+            .food-block { margin-left: 0; }
+
+            footer { padding: 2rem 1.25rem; }
+        }
+
+        @media (max-width: 480px) {
+            .day-date-label { display: none; }
+            .event-time-col { padding-top: 1.25rem; }
+        }
+
+        /* ─── ENTRANCE ANIMATIONS ───────────────────── */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loading-screen">
+        <div class="loading-logo">OKINAWA</div>
+        <div class="loading-bar"></div>
+    </div>
+
+    <!-- Masthead -->
+    <header class="masthead">
+        <div class="masthead-logo">
+            OKINAWA
+            <span id="masthead-subtitle">Travel Itinerary</span>
+        </div>
+        <nav class="masthead-flights">
+            <p id="flight-outbound">🛫 去程載入中</p>
+            <p id="flight-inbound">🛬 回程載入中</p>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-text">
+            <p class="hero-kicker">Travel Edition</p>
+            <h1 class="hero-title" id="hero-title">OKINAWA</h1>
+            <p class="hero-title-jp" id="hero-subtitle">沖繩 · 六天五夜</p>
+            <div class="hero-divider"></div>
+            <p class="hero-desc">
+                碧海白沙、首里的紅牆、市場裡的海鹽炸物——<br>
+                一段關於南島時光的記錄。
+            </p>
+        </div>
+        <div class="hero-map">
+            <div id="map"></div>
+        </div>
+        <div class="hero-issue">06</div>
+    </section>
+
+    <!-- Day Navigation -->
+    <nav class="day-nav" id="day-nav">
+        <span class="day-nav-label">行程</span>
+    </nav>
+
+    <!-- Itinerary -->
+    <main class="content-wrapper" id="itinerary-container"></main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo">OKINAWA</div>
+        <p>Travel Itinerary · Curated Edition</p>
+    </footer>
+
+    <script>
+        const dayColors = ['#c8624a', '#b5926a', '#3a7d6e', '#2d6a8f', '#8f2d6a', '#5a2d8f'];
+
+        // ─── Intersection Observer for fade-in ──────
+        const io = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+        }, { threshold: 0.1 });
+
+        async function initApp() {
+            try {
+                const response = await fetch('../data/okinawa.json');
+                if (!response.ok) throw new Error('無法讀取 JSON 檔案');
+                const travelData = await response.json();
+
+                // Meta
+                document.getElementById('hero-title').textContent = 'OKINAWA';
+                document.getElementById('hero-subtitle').textContent = travelData.meta.title;
+                document.getElementById('flight-outbound').innerHTML = `🛫 ${travelData.meta.outbound}`;
+                document.getElementById('flight-inbound').innerHTML = `🛬 ${travelData.meta.inbound}`;
+
+                // Map
+                const map = L.map('map', { zoomControl: false, scrollWheelZoom: false }).setView(travelData.meta.mapCenter, travelData.meta.mapZoom);
+                L.control.zoom({ position: 'bottomright' }).addTo(map);
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                    attribution: '&copy; OpenStreetMap &copy; CARTO',
+                    subdomains: 'abcd', maxZoom: 20
+                }).addTo(map);
+
+                const allMarkers = [];
+                const container = document.getElementById('itinerary-container');
+                const dayNav = document.getElementById('day-nav');
+
+                travelData.itinerary.forEach((dayData, idx) => {
+                    const color = dayColors[idx % dayColors.length];
+                    const dayId = `day-${dayData.day}`;
+
+                    // Nav link
+                    const navLink = document.createElement('a');
+                    navLink.href = `#${dayId}`;
+                    navLink.textContent = `Day ${dayData.day}`;
+                    dayNav.appendChild(navLink);
+
+                    // Section
+                    const section = document.createElement('section');
+                    section.className = 'day-section fade-in';
+                    section.id = dayId;
+
+                    section.innerHTML = `
+                        <div class="day-header">
+                            <div class="day-number-big" style="color: ${color}1a">${String(dayData.day).padStart(2,'0')}</div>
+                            <div class="day-header-text">
+                                <p class="day-date-label">Day ${dayData.day} — 行程規劃</p>
+                                <h2 class="day-title-main">${dayData.title}</h2>
+                            </div>
+                        </div>
+                        <div class="events-grid" id="events-${dayId}"></div>
+                    `;
+                    container.appendChild(section);
+                    io.observe(section);
+
+                    const eventsContainer = section.querySelector(`#events-${dayId}`);
+
+                    dayData.events.forEach(event => {
+                        // Map marker
+                        if (event.lat && event.lng) {
+                            const icon = L.divIcon({
+                                className: '',
+                                html: `<div style="width:12px;height:12px;border-radius:50%;background:${color};border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);transition:transform 0.2s;"></div>`,
+                                iconSize: [12, 12],
+                                iconAnchor: [6, 6]
+                            });
+                            const marker = L.marker([event.lat, event.lng], { icon }).addTo(map);
+                            marker.bindPopup(`<div class="popup-place">${event.place}${event.place_jp ? `<span style="display:block;font-family:var(--font-body);font-size:0.65rem;font-weight:300;color:var(--muted);letter-spacing:0.05em;margin-top:2px">${event.place_jp}</span>` : ''}</div><div class="popup-time">${event.time}</div>`);
+                            allMarkers.push(marker);
+                        }
+
+                        // Tags
+                        const tagsHtml = event.tags.map(tag =>
+                            `<span class="tag tag-${tag.text}">${tag.text}</span>`
+                        ).join('');
+
+                        // Event row
+                        const row = document.createElement('div');
+                        row.className = 'event-row';
+                        if (event.lat && event.lng) {
+                            row.onclick = () => map.flyTo([event.lat, event.lng], 15, { duration: 1.2 });
+                        }
+
+                        row.innerHTML = `
+                            <div class="event-time-col">
+                                <span class="event-time">${event.time}</span>
+                                <div class="event-dot" style="background:${color}"></div>
+                            </div>
+                            <div class="event-card">
+                                <div class="event-card-header">
+                                    <div>
+                                        <span class="event-place">${event.place}</span>
+                                        ${event.place_jp ? `<p class="event-place-jp">${event.place_jp}</p>` : ''}
+                                    </div>
+                                    <div class="tags">${tagsHtml}</div>
+                                </div>
+                                ${(event.address || event.address_jp) ? `
+                                <div>
+                                    ${event.address ? `<p class="event-address"><span>📍</span>${event.address} | ${event.address_jp}</p>` : ''}
+                                </div>` : ''}
+                                ${event.note ? `<p class="event-note">${event.note}</p>` : ''}
+                            </div>
+                        `;
+                        eventsContainer.appendChild(row);
+                    });
+
+                    // Food block
+                    if (dayData.foods && dayData.foods.list.length > 0) {
+                        const items = dayData.foods.list.map(i => `<li>${i}</li>`).join('');
+                        const food = document.createElement('div');
+                        food.className = 'food-block';
+                        food.innerHTML = `
+                            <h4>🍱 ${dayData.foods.title}</h4>
+                            <ul>${items}</ul>
+                            ${dayData.foods.note ? `<p class="food-note">${dayData.foods.note}</p>` : ''}
+                        `;
+                        eventsContainer.appendChild(food);
+                    }
+                });
+
+                // Fit map
+                if (allMarkers.length > 0) {
+                    const group = new L.featureGroup(allMarkers);
+                    map.fitBounds(group.getBounds(), { padding: [40, 40] });
+                }
+
+                // Hide loading
+                setTimeout(() => {
+                    document.getElementById('loading-screen').classList.add('hidden');
+                }, 600);
+
+            } catch (err) {
+                console.error(err);
+                document.getElementById('itinerary-container').innerHTML = `
+                    <div style="padding:4rem;text-align:center;font-family:var(--font-editorial);color:var(--muted)">
+                        <div style="font-size:3rem;margin-bottom:1rem">—</div>
+                        <p style="font-size:1.2rem;font-style:italic">無法讀取 JSON 檔案</p>
+                        <p style="font-size:0.75rem;margin-top:0.5rem;letter-spacing:0.1em">請確認路徑 json/okinawa.json 正確，並使用 Local Server 開啟</p>
+                    </div>`;
+                document.getElementById('loading-screen').classList.add('hidden');
+            }
+        }
+
+        initApp();
+    </script>
+</body>
+</html>
